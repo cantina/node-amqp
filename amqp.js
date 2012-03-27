@@ -779,7 +779,6 @@ function Connection (connectionArgs, options) {
 
   this._defaultExchange = null;
   this.channelCounter = 0;
-  this._sendBuffer = new Buffer(maxFrameBuffer);
 
   self.addListener('connect', function () {
     // channel 0 is the control channel.
@@ -994,7 +993,7 @@ Connection.prototype.heartbeat = function() {
 
 Connection.prototype._sendMethod = function (channel, method, args) {
   debug(channel + " < " + method.name + " " + JSON.stringify(args));
-  var b = this._sendBuffer;
+  var b = new Buffer(maxFrameBuffer);
   b.used = 0;
 
   b[b.used++] = 1; // constants.frameMethod
